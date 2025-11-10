@@ -43,8 +43,8 @@ public class TodoRepository
         var todoToUpdate = Todos.FirstOrDefault(t => t.Id == todo.Id);
         if (todoToUpdate != null)
         {
-            todoToUpdate.Name = todoToUpdate.Name;
-            todoToUpdate.IsCompleted = todoToUpdate.IsCompleted;
+            todoToUpdate.Name = todo.Name;
+            todoToUpdate.IsCompleted = todo.IsCompleted;
         }
     }
 
