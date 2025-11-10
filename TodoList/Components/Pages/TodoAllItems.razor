@@ -1,6 +1,6 @@
 @page "/todo/all"
 
-<h3>TodoAllItems</h3>
+<h3>Todo All Items</h3>
 
 <a href="/" class="btn btn-primary">Back</a>
 
@@ -26,7 +26,7 @@
                     Model="todo"
                     FormName="@($"form-todo-{todo.Id}")"
                     OnValidSubmit="@(() => { ToggleCompleted(todo.Id); })">
-                    <button type="submit" class="btn btn-outline-primary">Mark UnComplete</button>
+                    <button type="submit" class="btn btn-outline-primary">Toggle Completed</button>
                 </EditForm>
             </td>
             <td>
