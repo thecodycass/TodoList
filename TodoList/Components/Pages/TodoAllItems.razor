@@ -1,0 +1,64 @@
+@page "/todo/all"
+
+<h3>TodoAllItems</h3>
+
+<a href="/" class="btn btn-primary">Back</a>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Is Completed</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var todo in todos)
+    {
+        <tr>
+            <td>@todo.Id</td>
+            <td>@todo.Name</td>
+            <td>@todo.IsCompleted</td>
+            <td>
+                <EditForm
+                    Model="todo"
+                    FormName="@($"form-todo-{todo.Id}")"
+                    OnValidSubmit="@(() => { ToggleCompleted(todo.Id); })">
+                    <button type="submit" class="btn btn-outline-primary">Mark UnComplete</button>
+                </EditForm>
+            </td>
+            <td>
+                <EditForm
+                    Model="todo"
+                    FormName="@($"todo-form-{todo.Id}")"
+                    OnValidSubmit="@(() => { Delete(todo.Id); })"
+                    >
+                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                </EditForm>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    List<Todo> todos = TodoRepository.GetTodos();
+
+    private void Delete(int id)
+    {
+        if (id > 0)
+        {
+            TodoRepository.DeleteTodo(id);
+        }
+    }
+
+    private void ToggleCompleted(int id)
+    {
+        if (id > 0)
+        {
+            TodoRepository.ToggleComplete(id);
+        }
+    }
+}

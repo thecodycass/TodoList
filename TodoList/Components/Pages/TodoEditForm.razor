@@ -1,0 +1,48 @@
+@page "/{id:int}/"
+@inject NavigationManager NavigationManager
+
+@if (todo != null)
+{
+    <EditForm Model="todo" FormName="todoForm" OnValidSubmit="SubmitForm">
+        <DataAnnotationsValidator/>
+        
+        <InputNumber @bind-Value="todo.Id" hidden/>
+        
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">Name</label>
+            </div>
+            <div class="col-6">
+                <InputText @bind-Value="todo.Name" class="form-control"/>
+            </div>
+            <div class="col align-content-center">
+                <ValidationMessage For="() => todo.Name"/>
+            </div>
+        </div>
+
+        <a href="/" class="btn btn-primary">Back</a>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    
+    [SupplyParameterFromForm(FormName = "todoForm")]
+    public Todo todo { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        todo ??= TodoRepository.GetTodoById(this.Id);
+    }
+
+    public void SubmitForm()
+    {
+        if (todo != null)
+        {
+            TodoRepository.UpdateTodo(todo, todo.Id);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}
